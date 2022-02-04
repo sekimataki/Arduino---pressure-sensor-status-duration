@@ -1,0 +1,40 @@
+//Sekimataki 2/3/2022
+int fsrPin = 0;     // A0 plug
+int fsrReading;
+unsigned long noWearTime = 0;
+unsigned long wearTime = 0;
+bool printedWearTime = false;
+bool printedNoWearTime = false;
+
+void setup(void) {
+  Serial.begin(9600);
+}
+
+void loop (void) {
+  fsrReading = analogRead(fsrPin);
+  //Serial.print("Reading: ");
+  //Serial.println(fsrReading);
+  if (fsrReading < 200) {
+    printedNoWearTime = false;
+    if (!printedWearTime){//opposite to the current printedWearTime value
+      Serial.println(" Airy - NOT WEARING BRACE");
+      //Serial.print("Worn brace duration: ");
+      //Serial.print(wearTime);
+      //Serial.println("s");
+      printedWearTime = true;
+      }
+    wearTime ++;
+    
+  } else {
+    printedWearTime = false;
+    if (!printedNoWearTime){
+      Serial.println(" Airy - WEARING BRACE");
+      Serial.print("Worn brace duration: ");
+      Serial.print(noWearTime);
+      Serial.println("s");
+      printedNoWearTime = true;
+      }
+    noWearTime ++;
+  }
+  delay(1000);
+}
